@@ -1,5 +1,11 @@
 // eslint-disable-next-line @next/next/no-document-import-in-page
-import Document, { DocumentContext } from 'next/document';
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentContext,
+} from 'next/document';
 
 import { ServerStyleSheet } from 'styled-components';
 
@@ -30,6 +36,18 @@ class MyDocument extends Document {
     } finally {
       sheet.seal();
     }
+  }
+
+  render(): JSX.Element {
+    return (
+      <Html lang="en">
+        <Head />
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
 
