@@ -1,10 +1,11 @@
 import { NextPage } from 'next';
-import Image from 'next/image';
 
 import { useRef } from 'react';
 
-import { darken } from 'polished';
+import { lighten } from 'polished';
 import styled from 'styled-components';
+
+import Icon from './icon';
 
 const Wrapper = styled.header`
   &,
@@ -48,6 +49,12 @@ const Wrapper = styled.header`
 
       label {
         flex: 1;
+        display: flex;
+        align-items: center;
+
+        svg path {
+          fill: #c4c4c4;
+        }
 
         &:first-child {
           flex: 2;
@@ -63,24 +70,40 @@ const Wrapper = styled.header`
           font: normal normal 600 12px/16px Segoe UI;
           letter-spacing: 0.48px;
           padding: 7px;
+          margin: -3px 0;
         }
       }
 
       button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         border: none;
         background-color: #fff;
         box-shadow: 0 3px 15px #00000014;
         border-radius: 100%;
-        padding: 8px 7px 7px 8px;
+        padding: 2px 4px 4px 2px;
         width: 30px;
         height: 30px;
 
+        svg > path {
+          fill: ${({ theme }) => theme.colors.primary};
+        }
+
         &:hover {
-          background-color: ${({ theme }) => darken(0.1, theme.colors.primary)};
+          background-color: ${({ theme }) => theme.colors.primary};
+          svg > path {
+            fill: ${({ theme }) => theme.colors.background};
+          }
         }
 
         &:active {
-          background-color: ${({ theme }) => darken(0.3, theme.colors.primary)};
+          background-color: ${({ theme }) =>
+            lighten(0.1, theme.colors.primary)};
+          svg > path {
+            fill: ${({ theme }) => theme.colors.background};
+          }
         }
       }
     }
@@ -97,7 +120,7 @@ const Wrapper = styled.header`
         border-radius: 13px;
 
         &:last-child {
-          border: 2px solid #7b89f4;
+          border: 2px solid ${({ theme }) => theme.colors.primary};
         }
 
         &:hover {
@@ -106,7 +129,8 @@ const Wrapper = styled.header`
         }
 
         &:active {
-          background-color: ${({ theme }) => theme.colors.primary}aa;
+          background-color: ${({ theme }) =>
+            lighten(0.1, theme.colors.primary)};
           color: ${({ theme }) => theme.colors.background};
         }
       }
@@ -141,12 +165,7 @@ const TopBar: NextPage = () => {
         </h1>
         <form onSubmit={submitHandler}>
           <label htmlFor="location">
-            <Image
-              src="/icons/map-pin.svg"
-              width={13}
-              height={17}
-              alt="Search button"
-            />
+            <Icon name="map pin" width={13} height={17} />
             <input
               id="location"
               defaultValue="North Carolina, NC 90025"
@@ -154,12 +173,7 @@ const TopBar: NextPage = () => {
             />
           </label>
           <label htmlFor="initialDate">
-            <Image
-              src="/icons/calendar.svg"
-              width={18}
-              height={18}
-              alt="Search button"
-            />
+            <Icon name="calendar" size={18} />
             <input
               id="initialDate"
               type="date"
@@ -168,12 +182,7 @@ const TopBar: NextPage = () => {
             />
           </label>
           <label htmlFor="finalDate">
-            <Image
-              src="/icons/calendar.svg"
-              width={18}
-              height={18}
-              alt="Search button"
-            />
+            <Icon name="calendar" size={18} />
             <input
               id="finalDate"
               type="date"
@@ -181,13 +190,12 @@ const TopBar: NextPage = () => {
               ref={finalDateInputRef}
             />
           </label>
-          <button type="submit">
-            <Image
-              src="/icons/search.svg"
-              width={15}
-              height={15}
-              alt="Search button"
-            />
+          <button
+            type="submit"
+            aria-label="Search button"
+            title="Search button"
+          >
+            <Icon name="search" size={16} />
           </button>
         </form>
         <div className="actions">
