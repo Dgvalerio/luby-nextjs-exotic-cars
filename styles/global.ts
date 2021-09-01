@@ -14,9 +14,14 @@ const GlobalStyle = createGlobalStyle`
     }
   }
   
-  body {
+  body, #__next {
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
+
+    display: flex;
+    flex-direction: column;
+
+    height: 100vh;
   }
   
   button {

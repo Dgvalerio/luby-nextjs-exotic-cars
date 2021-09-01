@@ -5,7 +5,7 @@ import path from 'path';
 import styled from 'styled-components';
 
 import CarCard from '../components/car-card';
-import { ICar } from '../types/interface';
+import { ICar, IJsonCar } from '../types/interface';
 
 const Wrapper = styled.main`
   &,
@@ -32,12 +32,11 @@ const Wrapper = styled.main`
   }
 `;
 
-type HomeProps = { cars: ICar[] };
+type CatalogPageProps = { cars: ICar[] };
 
-const Home: NextPage<HomeProps> = ({ cars }) => (
+const CatalogPage: NextPage<CatalogPageProps> = ({ cars }) => (
   <Wrapper>
     <div className="content">
-      <h1>Home Page</h1>
       <div className="cars-grid">
         {cars.map((car) => (
           <CarCard key={car.slug} car={car} />
@@ -47,7 +46,7 @@ const Home: NextPage<HomeProps> = ({ cars }) => (
   </Wrapper>
 );
 
-export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+export const getStaticProps: GetStaticProps<CatalogPageProps> = async () => {
   const filePath = path.join(process.cwd(), 'data', 'cars.json');
   const jsonData = await fs.readFile(filePath);
   const data = await JSON.parse(jsonData.toString());
@@ -56,22 +55,13 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
 
   if (data.cars.length === 0) return { notFound: true };
 
-  const cars: ICar[] = data.cars.map(
-    (car: {
-      slug: string;
-      brand: string;
-      model: string;
-      // eslint-disable-next-line camelcase
-      price_per_day: number;
-      color: string;
-    }) => ({
-      slug: car.slug,
-      brand: car.brand,
-      model: car.model,
-      pricePerDay: car.price_per_day,
-      color: car.color,
-    })
-  );
+  const cars: ICar[] = data.cars.map((car: IJsonCar) => ({
+    slug: car.slug,
+    brand: car.brand,
+    model: car.model,
+    pricePerDay: car.price_per_day,
+    color: car.color,
+  }));
 
   return {
     props: { cars },
@@ -79,4 +69,4 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   };
 };
 
-export default Home;
+export default CatalogPage;

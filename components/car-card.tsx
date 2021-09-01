@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import { darken } from 'polished';
 import styled from 'styled-components';
@@ -128,36 +129,42 @@ const Car = styled.article`
   }
 `;
 
-const CarCard: NextPage<{ car: ICar }> = ({ car }) => (
-  <Car>
-    <div className="header">
-      <div>
-        <b>{car.brand}</b>
-        <span>{car.model}</span>
-      </div>
-      <div>
-        <div className="circle" />
-        <div className="circle" />
-        <div className="circle" />
-      </div>
-    </div>
+const CarCard: NextPage<{ car: ICar }> = ({ car }) => {
+  const router = useRouter();
 
-    <Image
-      src={`/images/cars/side/${car.slug}.png`}
-      alt={`${car.brand} ${car.model} ${car.color}`}
-      width={244}
-      height={107}
-    />
+  const clickHandler = () => router.push(`/car/${car.slug}`);
 
-    <div className="footer">
-      <b>Book Now</b>
-      <b>
-        <small>$</small>
-        {car.pricePerDay}
-        <small>/day</small>
-      </b>
-    </div>
-  </Car>
-);
+  return (
+    <Car onClick={clickHandler} onKeyPress={clickHandler} role="presentation">
+      <div className="header">
+        <div>
+          <b>{car.brand}</b>
+          <span>{car.model}</span>
+        </div>
+        <div>
+          <div className="circle" />
+          <div className="circle" />
+          <div className="circle" />
+        </div>
+      </div>
+
+      <Image
+        src={`/images/cars/side/${car.slug}.png`}
+        alt={`${car.brand} ${car.model} ${car.color}`}
+        width={244}
+        height={107}
+      />
+
+      <div className="footer">
+        <b>Book Now</b>
+        <b>
+          <small>$</small>
+          {car.pricePerDay}
+          <small>/day</small>
+        </b>
+      </div>
+    </Car>
+  );
+};
 
 export default CarCard;

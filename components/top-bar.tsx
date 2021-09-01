@@ -16,7 +16,8 @@ const Wrapper = styled.header`
     display: flex;
   }
 
-  height: 83px;
+  padding-top: 25px;
+  padding-bottom: 22px;
 
   justify-content: center;
   box-shadow: 0 10px 30px #0000001a;

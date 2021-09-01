@@ -1,6 +1,11 @@
 import { FC } from 'react';
 
-type iconName = 'calendar' | 'map pin' | 'search';
+type iconName =
+  | 'calendar'
+  | 'map pin'
+  | 'search'
+  | 'arrow right'
+  | 'arrow left';
 
 const Icon: FC<{
   name: iconName;
@@ -40,6 +45,39 @@ const Icon: FC<{
           className="a"
           d="M8.42,14.84a6.382,6.382,0,0,0,3.93-1.355l3.528,3.528,1.135-1.135L13.484,12.35A6.412,6.412,0,1,0,8.42,14.84ZM8.42,3.6A4.815,4.815,0,1,1,3.6,8.42,4.82,4.82,0,0,1,8.42,3.6Z"
         />
+      );
+      break;
+    case 'arrow right':
+      icon = (
+        <g transform="translate(-768 -643.646)">
+          <path d="M936-990h23.594" transform="translate(-168 1642)" />
+          <path d="M952-998l8,8" transform="translate(-168.406 1642)" />
+          <path
+            d="M952-982.344l8.406-8.3"
+            transform="translate(-168.406 1642.344)"
+          />
+        </g>
+      );
+      break;
+    case 'arrow left':
+      icon = (
+        <g transform="translate(0.351 0.354)">
+          <path
+            className="a"
+            d="M959.594-990H936"
+            transform="translate(-935.594 998)"
+          />
+          <path
+            className="a"
+            d="M960-998l-8,8"
+            transform="translate(-951.594 998)"
+          />
+          <path
+            className="a"
+            d="M960.406-982.344l-8.406-8.3"
+            transform="translate(-952 998.344)"
+          />
+        </g>
       );
       break;
     default:
