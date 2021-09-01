@@ -6,6 +6,7 @@ import { darken } from 'polished';
 import styled from 'styled-components';
 
 import { ICar } from '../types/interface';
+import { slugify } from '../utils';
 
 const Car = styled.article`
   background: #f8f8fa;
@@ -132,7 +133,10 @@ const Car = styled.article`
 const CarCard: NextPage<{ car: ICar }> = ({ car }) => {
   const router = useRouter();
 
-  const clickHandler = () => router.push(`/car/${car.slug}`);
+  const clickHandler = () =>
+    router.push(
+      `/${slugify(car.brand)}/${slugify(car.model)}/${slugify(car.color)}`
+    );
 
   return (
     <Car onClick={clickHandler} onKeyPress={clickHandler} role="presentation">

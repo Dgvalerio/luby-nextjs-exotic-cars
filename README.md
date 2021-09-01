@@ -17,7 +17,6 @@ telas, atente a **responsividade**.
 - [X]  **RF05. Ao clicar em um carro**, redirecione para a tela de detalhes passando as propriedades deles.
 - [ ]  **RF06**: A página de detalhes deve ter a navegação entre as cores do carro, a animação é opcional.
 
-**Observações**: não é necessário implementar o login ou outras telas que nao estão no protótipo. O que você achar
-necessário para que a qualidade do seu código e interface fique o melhor possível, poderá ser utilizado.
+**Observações**: não é necessário implementar o login ou outras telas que nao estão no protótipo. O que você achar necessário para que a qualidade do seu código e interface fique o melhor possível, poderá ser utilizado.
 
 Após finalizar, notifique seu líder.

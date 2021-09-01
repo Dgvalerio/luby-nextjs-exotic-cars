@@ -1,24 +1,23 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import Image from 'next/image';
-
-import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import fs from 'fs/promises';
 import path from 'path';
-import { transparentize } from 'polished';
+import { darken, transparentize } from 'polished';
 import styled from 'styled-components';
 
-import Icon from '../../components/icon';
-import { ICar, IJsonCar } from '../../types/interface';
+import Icon from '../components/icon';
+import { ICar, IJsonCar } from '../types/interface';
+import { slugify } from '../utils';
 
 const Wrapper = styled.main`
   &,
   .content,
   .top,
   .middle,
-  .bottom,
-  .carOption,
-  .carOption > div {
+  .bottom {
     display: flex;
   }
 
@@ -78,6 +77,7 @@ const Wrapper = styled.main`
         gap: 8px;
         transition: 0.4s all;
         font: normal normal 300 16px/21px Segoe UI;
+        box-shadow: 0 5px 20px #0000001a;
 
         svg path {
           stroke: ${({ theme }) => theme.colors.text};
@@ -134,6 +134,7 @@ const Wrapper = styled.main`
     .bottom {
       align-items: center;
       justify-content: space-between;
+      padding-top: 64px;
 
       button {
         border-radius: 50%;
@@ -159,45 +160,70 @@ const Wrapper = styled.main`
           background-color: ${({ theme }) => theme.colors.text};
         }
       }
+    }
+  }
+`;
 
-      .carOption {
-        padding-right: 64px;
-        align-items: center;
+const CarOption = styled.div<{ active: boolean }>`
+  &,
+  > div {
+    display: flex;
+  }
+  padding-right: 64px;
+  align-items: center;
+  transform: translateY(${({ active }) => (active ? '-48px' : '0')});
 
-        > div {
-          align-items: center;
+  > div {
+    align-items: center;
+    width: ${({ active }) => (active ? '300px' : '224px')};
+    height: ${({ active }) => (active ? '240px' : '179px')};
+    border-radius: 20px;
 
-          background: #d8d7d7;
-          width: 224px;
-          height: 179px;
-          border-radius: 20px;
+    > div {
+      transform: translateX(${({ active }) => (active ? '64px' : '32px')});
+      min-width: 256px;
+      min-height: 179px;
+    }
 
-          > div {
-            transform: translateX(32px);
-            min-width: 256px;
-            height: 179px;
-          }
-        }
+    background: ${({ active }) =>
+      active ? '#e6d3f1 linear-gradient(52deg, #a1a7f4, #e6d3f1)' : '#d8d7d7'};
+    background-size: 200% 100%;
+
+    animation: ${({ active }) =>
+      active ? 'active 2s linear infinite' : 'none'};
+
+    cursor: pointer;
+
+    &:active {
+      background: ${() => darken(0.1, '#a1a7f4')};
+    }
+
+    @keyframes active {
+      0% {
+        background-position: 0 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0 50%;
       }
     }
   }
 `;
 
-type CarPageProps = { cars: ICar[] };
-type CarPagePath = { slug: string };
+type DetailsPageProps = { cars: ICar[]; activeCar: ICar };
+type DetailsPagePath = { slug: string[] };
 
-const CarPage: NextPage<CarPageProps> = ({ cars: crs }) => {
-  const [cars] = useState(crs);
-  // const [colors, setColors] = useState<string[]>();
-  // const [selectedColor, setSelectedColor] = useState<string>();
+const DetailsPage: NextPage<DetailsPageProps> = ({ cars, activeCar }) => {
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   if (cars.length > 0) {
-  //     setSelectedColor(cars[0].color);
-  //   }
-  // }, [cars]);
-
-  if (!cars || cars.length === 0) return <p>Loading...</p>;
+  const colorHandler = (color: string) =>
+    router.push(
+      `/${slugify(activeCar.brand)}/${slugify(activeCar.model)}/${slugify(
+        color
+      )}`
+    );
 
   return (
     <Wrapper>
@@ -214,14 +240,14 @@ const CarPage: NextPage<CarPageProps> = ({ cars: crs }) => {
             </div>
             <div>
               <h1>
-                {cars[0].brand} {cars[0].model}
+                {activeCar.brand} {activeCar.model}
               </h1>
-              <h2>${cars[0].pricePerDay}/day</h2>
+              <h2>${activeCar.pricePerDay}/day</h2>
             </div>
           </div>
           <div>
             <h3>01</h3>
-            <h4>{cars[0].color}</h4>
+            <h4>{activeCar.color}</h4>
           </div>
         </div>
         <div className="middle">
@@ -230,7 +256,7 @@ const CarPage: NextPage<CarPageProps> = ({ cars: crs }) => {
           </button>
           <div>
             <Image
-              src={`/images/cars/side/${cars[0].slug}.png`}
+              src={`/images/cars/side/${activeCar.slug}.png`}
               alt="Ferrari"
               height={256}
               width={640}
@@ -246,17 +272,21 @@ const CarPage: NextPage<CarPageProps> = ({ cars: crs }) => {
             <Icon name="arrow left" height={16} width={24} />
           </button>
           {cars.map((car) => (
-            <div key={car.slug} className="carOption">
+            <CarOption
+              key={car.slug}
+              active={car.color === activeCar.color}
+              onClick={() => colorHandler(car.color)}
+            >
               <div>
                 <Image
                   src={`/images/cars/side/${car.slug}.png`}
                   alt={`${car.brand} ${car.model} ${car.color}`}
-                  width={256}
-                  height={128}
+                  width={car.color === activeCar.color ? 343 : 256}
+                  height={car.color === activeCar.color ? 172 : 128}
                   objectFit="contain"
                 />
               </div>
-            </div>
+            </CarOption>
           ))}
           <button type="button">
             <Icon name="arrow right" height={16} width={24} />
@@ -267,46 +297,47 @@ const CarPage: NextPage<CarPageProps> = ({ cars: crs }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps<CarPageProps, CarPagePath> = async (
-  context
-) => {
-  let slug: string | string[];
-  slug = context.params?.slug || '';
-  slug = slug.split('-');
-  slug.pop();
-  slug = slug.join('-');
+export const getStaticProps: GetStaticProps<DetailsPageProps, DetailsPagePath> =
+  async ({ params }) => {
+    const [brand, model, color] = params!.slug;
 
-  const filePath = path.join(process.cwd(), 'data', 'cars.json');
-  const jsonData = await fs.readFile(filePath);
-  const data = await JSON.parse(jsonData.toString());
+    const filePath = path.join(process.cwd(), 'data', 'cars.json');
+    const jsonData = await fs.readFile(filePath);
+    const data = await JSON.parse(jsonData.toString());
 
-  if (data.cars.length === 0) return { notFound: true };
+    if (data.cars.length === 0) return { notFound: true };
 
-  const cars = data.cars.filter((aCar: IJsonCar) =>
-    aCar.slug.includes(`${slug}`)
-  );
-
-  return {
-    props: {
-      cars: cars.map((car: IJsonCar) => ({
+    const cars = data.cars
+      .filter((aCar: IJsonCar) => aCar.slug.includes(`${brand}-${model}`))
+      .map((car: IJsonCar) => ({
         slug: car.slug,
         brand: car.brand,
         model: car.model,
         pricePerDay: car.price_per_day,
         color: car.color,
-      })),
-    },
-    revalidate: 10,
+      }));
+
+    return {
+      props: {
+        cars,
+        activeCar: cars.find((car: ICar) => car.color.toLowerCase() === color),
+      },
+    };
+  };
+
+export const getStaticPaths: GetStaticPaths<DetailsPagePath> = async () => {
+  const filePath = path.join(process.cwd(), 'data', 'cars.json');
+  const jsonData = await fs.readFile(filePath);
+  const { cars }: { cars: ICar[] } = await JSON.parse(jsonData.toString());
+
+  const paths = cars.map(({ brand, model, color }) => ({
+    params: { slug: [slugify(brand), slugify(model), slugify(color)] },
+  }));
+
+  return {
+    paths,
+    fallback: true,
   };
 };
 
-export const getStaticPaths: GetStaticPaths<CarPagePath> = async () => ({
-  paths: [
-    { params: { slug: '' } },
-    { params: { slug: '' } },
-    { params: { slug: '' } },
-  ],
-  fallback: true,
-});
-
-export default CarPage;
+export default DetailsPage;

@@ -2,8 +2,8 @@
   "cars": [
     {
       "slug": "ferrari-california-convertible-red",
-      "brand": "Ferrari Convertible",
-      "model": "California",
+      "brand": "Ferrari",
+      "model": "California Convertible",
       "price_per_day": 725,
       "color": "Red"
     },
