@@ -14,7 +14,7 @@ telas, atente a **responsividade**.
   sejam coerentes com a necessidade da tela).
 - [ ]  **RF03.** Aplicar **responsividade**
 - [X]  **RF04.** Utilizar **Typescript**
-- [ ]  **RF05. Ao clicar em um carro**, redirecione para a tela de detalhes passando as propriedades deles.
+- [X]  **RF05. Ao clicar em um carro**, redirecione para a tela de detalhes passando as propriedades deles.
 - [ ]  **RF06**: A página de detalhes deve ter a navegação entre as cores do carro, a animação é opcional.
 
 **Observações**: não é necessário implementar o login ou outras telas que nao estão no protótipo. O que você achar

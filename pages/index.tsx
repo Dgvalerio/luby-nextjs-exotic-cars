@@ -1,10 +1,14 @@
 import type { GetStaticProps, NextPage } from 'next';
 
+import { useEffect, useState } from 'react';
+
 import fs from 'fs/promises';
 import path from 'path';
+import { transparentize } from 'polished';
 import styled from 'styled-components';
 
 import CarCard from '../components/car-card';
+import Icon from '../components/icon';
 import { ICar, IJsonCar } from '../types/interface';
 
 const Wrapper = styled.main`
@@ -14,7 +18,7 @@ const Wrapper = styled.main`
   }
 
   justify-content: center;
-  padding-top: 1.4rem;
+  padding-top: 7rem;
   padding-bottom: 2.8rem;
 
   .content {
@@ -30,21 +34,77 @@ const Wrapper = styled.main`
       gap: 24px;
     }
   }
+
+  button.back-to-top {
+    background-color: ${({ theme }) =>
+      transparentize(0.3, theme.colors.primary)};
+    border-radius: 50%;
+    height: 73px;
+    width: 73px;
+    border: none;
+
+    position: fixed;
+    align-self: flex-end;
+    bottom: 42px;
+
+    svg path {
+      fill: ${({ theme }) => theme.colors.background};
+    }
+
+    &:hover {
+      background-color: ${({ theme }) =>
+        transparentize(0.1, theme.colors.primary)};
+    }
+
+    &:active {
+      background-color: ${({ theme }) => theme.colors.background};
+
+      svg path {
+        fill: ${({ theme }) => theme.colors.primary};
+      }
+    }
+  }
 `;
 
 type CatalogPageProps = { cars: ICar[] };
 
-const CatalogPage: NextPage<CatalogPageProps> = ({ cars }) => (
-  <Wrapper>
-    <div className="content">
-      <div className="cars-grid">
-        {cars.map((car) => (
-          <CarCard key={car.slug} car={car} />
-        ))}
+const CatalogPage: NextPage<CatalogPageProps> = ({ cars }) => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const handleScroll = () => setScrollPosition(window.scrollY);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const backTopTopHandler = () =>
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+
+  return (
+    <Wrapper>
+      <div className="content">
+        <div className="cars-grid">
+          {cars.map((car) => (
+            <CarCard key={car.slug} car={car} />
+          ))}
+        </div>
+        {scrollPosition !== 0 && (
+          <button
+            type="button"
+            className="back-to-top"
+            onClick={backTopTopHandler}
+          >
+            <Icon name="chevron top" height={19} width={38} />
+          </button>
+        )}
       </div>
-    </div>
-  </Wrapper>
-);
+    </Wrapper>
+  );
+};
 
 export const getStaticProps: GetStaticProps<CatalogPageProps> = async () => {
   const filePath = path.join(process.cwd(), 'data', 'cars.json');

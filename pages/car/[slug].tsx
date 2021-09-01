@@ -23,9 +23,10 @@ const Wrapper = styled.main`
   }
 
   justify-content: center;
-  padding-top: 1.4rem;
+  padding-top: 7rem;
   padding-bottom: 2.8rem;
   background: transparent linear-gradient(125deg, #ffffff 0, #d8d7d7 100%);
+  flex: 1;
 
   .content {
     flex: 1;

@@ -5,7 +5,8 @@ type iconName =
   | 'map pin'
   | 'search'
   | 'arrow right'
-  | 'arrow left';
+  | 'arrow left'
+  | 'chevron top';
 
 const Icon: FC<{
   name: iconName;
@@ -78,6 +79,14 @@ const Icon: FC<{
             transform="translate(-952 998.344)"
           />
         </g>
+      );
+      break;
+    case 'chevron top':
+      icon = (
+        <path
+          d="M23.539,42.288a2.663,2.663,0,0,1-2.077-.985L8.6,25.323a2.663,2.663,0,0,1,0-3.382L21.915,5.961a2.667,2.667,0,0,1,4.1,3.409l-11.9,14.275L25.617,37.92a2.663,2.663,0,0,1-2.077,4.368Z"
+          transform="translate(42.288 -7.992) rotate(90)"
+        />
       );
       break;
     default:

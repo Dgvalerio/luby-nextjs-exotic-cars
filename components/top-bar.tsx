@@ -1,4 +1,5 @@
 import { NextPage } from 'next';
+import Link from 'next/link';
 
 import { useRef } from 'react';
 
@@ -21,18 +22,27 @@ const Wrapper = styled.header`
 
   justify-content: center;
   box-shadow: 0 10px 30px #0000001a;
+  background-color: #ffffff;
+
+  position: fixed;
+  z-index: 9998;
+  width: 100%;
 
   .content {
+    z-index: 9999;
+
     flex: 1;
     max-width: ${({ theme }) => theme.sizes.contentWidth};
 
     align-items: center;
     justify-content: space-between;
 
-    h1 {
+    a {
       text-transform: uppercase;
       font: normal normal 600 24px/32px Segoe UI;
       letter-spacing: 0.96px;
+      text-decoration: none;
+      color: ${({ theme }) => theme.colors.text};
 
       small {
         padding: 0 5px;
@@ -161,9 +171,12 @@ const TopBar: NextPage = () => {
   return (
     <Wrapper>
       <div className="content">
-        <h1>
-          Exotic<small>cars</small>
-        </h1>
+        <Link href="/" passHref>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a>
+            Exotic<small>cars</small>
+          </a>
+        </Link>
         <form onSubmit={submitHandler}>
           <label htmlFor="location">
             <Icon name="map pin" width={13} height={17} />
