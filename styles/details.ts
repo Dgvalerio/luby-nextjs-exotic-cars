@@ -140,13 +140,18 @@ export const Wrapper = styled.main`
           stroke: ${({ theme }) => theme.colors.background};
         }
 
-        &:hover {
+        &:not(:disabled):hover {
           background-color: ${({ theme }) =>
             transparentize(0.3, theme.colors.text)};
         }
 
-        &:active {
+        &:not(:disabled):active {
           background-color: ${({ theme }) => theme.colors.text};
+        }
+
+        &:disabled {
+          opacity: 0.2;
+          cursor: not-allowed;
         }
       }
     }

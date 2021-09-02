@@ -105,5 +105,62 @@
       "price_per_day": 725,
       "color": "Gray"
     }
+  ],
+  "brands": [
+    {
+      "slug": "ferrari",
+      "brand": "Ferrari",
+      "logo": "ferrari.svg"
+    },
+    {
+      "slug": "porsche",
+      "brand": "Porsche",
+      "logo": "porsche.svg"
+    },
+    {
+      "slug": "bentley",
+      "brand": "Bentley",
+      "logo": "bentley.svg"
+    },
+    {
+      "slug": "bmw",
+      "brand": "BMW",
+      "logo": "bmw.svg"
+    },
+    {
+      "slug": "alfa-romeo",
+      "brand": "Alfa Romeo",
+      "logo": "alfa-romeo.svg"
+    },
+    {
+      "slug": "mclaren",
+      "brand": "Mclaren",
+      "logo": "mclaren.svg"
+    },
+    {
+      "slug": "lamborghini",
+      "brand": "Lamborghini",
+      "logo": "lamborghini.svg"
+    },
+    {
+      "slug": "bugatti",
+      "brand": "Bugatti",
+      "logo": "bugatti.svg"
+    },
+    {
+      "slug": "chevrolet",
+      "brand": "Chevrolet",
+      "logo": "chevrolet.svg"
+    },
+    {
+      "slug": "rolls-royce",
+      "brand": "Rolls-Royce",
+      "logo": "rolls-royce.svg"
+    },
+    {
+      "slug": "mercedes-benz",
+      "brand": "Mercedes-benz",
+      "logo": "mercedes-benz.svg"
+    }
   ]
 }

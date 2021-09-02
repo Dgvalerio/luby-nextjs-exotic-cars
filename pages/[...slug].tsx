@@ -17,12 +17,18 @@ type DetailsPagePath = { slug: string[] };
 const DetailsPage: NextPage<DetailsPageProps> = ({ cars, activeCar }) => {
   const router = useRouter();
 
+  const goBackHandler = () => router.push('/');
+
   const colorHandler = (color: string) =>
     router.push(
       `/${slugify(activeCar.brand)}/${slugify(activeCar.model)}/${slugify(
         color
       )}`
     );
+
+  const carPos = `0${
+    cars.findIndex(({ slug }) => slug === activeCar.slug) + 1
+  }`.slice(-2);
 
   return (
     <Wrapper>
@@ -31,8 +37,10 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars, activeCar }) => {
           <div>
             <div>
               <Image
-                src="/images/brands/ferrari.png"
-                alt="Ferrari"
+                src={`/images/brands/${slugify(activeCar.brand)}${
+                  activeCar.brand === 'Ferrari' ? '.png' : '.svg'
+                }`}
+                alt={activeCar.brand}
                 height={123}
                 width={91}
               />
@@ -45,12 +53,12 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars, activeCar }) => {
             </div>
           </div>
           <div>
-            <h3>01</h3>
+            <h3>{carPos}</h3>
             <h4>{activeCar.color}</h4>
           </div>
         </div>
         <div className="middle">
-          <button type="button">
+          <button type="button" onClick={goBackHandler}>
             <Icon name="arrow left" height={16} width={24} /> Back to catalog
           </button>
           <div>
@@ -67,7 +75,11 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars, activeCar }) => {
           </div>
         </div>
         <div className="bottom">
-          <button type="button">
+          <button
+            type="button"
+            onClick={() => colorHandler(cars[+carPos - 2].color)}
+            disabled={+carPos - 2 < 0}
+          >
             <Icon name="arrow left" height={16} width={24} />
           </button>
           {cars.map((car) => (
@@ -87,7 +99,11 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars, activeCar }) => {
               </div>
             </CarOption>
           ))}
-          <button type="button">
+          <button
+            type="button"
+            onClick={() => colorHandler(cars[+carPos].color)}
+            disabled={+carPos >= cars.length}
+          >
             <Icon name="arrow right" height={16} width={24} />
           </button>
         </div>
