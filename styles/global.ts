@@ -7,7 +7,8 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
 
     font-family: sans-serif;
-    
+    font-size: 16px;
+
     &::selection {
       background-color: ${({ theme }) => theme.colors.primary};
       color: ${({ theme }) => theme.colors.background};

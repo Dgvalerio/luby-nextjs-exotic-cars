@@ -27,6 +27,7 @@ export const Wrapper = styled.main`
   }
 
   button.back-to-top {
+    box-shadow: 0 5px 15px #00000064;
     background-color: ${({ theme }) =>
       transparentize(0.3, theme.colors.primary)};
     border-radius: 50%;

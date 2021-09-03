@@ -145,7 +145,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars: crs, activeCar }) => {
                 <Image
                   src={`/images/cars/side/${c.slug}.png`}
                   alt={`${c.brand} ${c.model} ${c.color}`}
-                  width={c.color === car.color ? 343 : 256}
+                  width={c.color === car.color ? 384 : 256}
                   height={c.color === car.color ? 172 : 128}
                   objectFit="contain"
                 />

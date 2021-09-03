@@ -163,19 +163,23 @@ export const CarOption = styled.div<{ active: boolean }>`
   > div {
     display: flex;
   }
-  padding-right: 64px;
+
+  z-index: ${({ active }) => (active ? '10' : '9')};
+  padding: 0 ${({ active }) => (active ? '32px' : '64px')} 0
+    ${({ active }) => (active ? '32px' : '0')};
   align-items: center;
   transform: translateY(${({ active }) => (active ? '-48px' : '0')});
 
   > div {
     align-items: center;
+    box-shadow: 0 0 16px #00000016;
     width: ${({ active }) => (active ? '300px' : '224px')};
     height: ${({ active }) => (active ? '240px' : '179px')};
     border-radius: 20px;
 
     > div {
-      transform: translateX(${({ active }) => (active ? '64px' : '32px')});
-      min-width: 256px;
+      transform: translateX(${({ active }) => (active ? '-32px' : '32px')});
+      min-width: ${({ active }) => (active ? '384px' : '256px')};
       min-height: 179px;
     }
 
