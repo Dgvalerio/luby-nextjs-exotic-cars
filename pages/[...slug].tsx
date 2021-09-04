@@ -52,16 +52,17 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars: crs, activeCar }) => {
   );
 
   const [cars, setCars] = useState<ICarWithID[]>([]);
-  const [car, setCar] = useState<ICarWithID>(activeCar);
+  const [car, setCar] = useState<ICarWithID>();
 
   useEffect(() => {
     setCars(formatCarsArray(crs, activeCar));
+    setCar(activeCar);
   }, [activeCar, crs, formatCarsArray]);
-
-  const goBackHandler = () => router.push('/');
 
   const colorHandler = useCallback(
     (color: string) => {
+      if (!car) return;
+
       const selectedCar = cars.find((c) => c.color === color);
 
       if (!selectedCar) return;
@@ -77,8 +78,12 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars: crs, activeCar }) => {
           setCar(selectedCar);
         });
     },
-    [car.brand, car.model, cars, formatCarsArray, router]
+    [car, cars, formatCarsArray, router]
   );
+
+  if (!car) return <p>Loading...</p>;
+
+  const goBackHandler = () => router.push('/');
 
   const carPos = cars.findIndex(({ slug }) => slug === car.slug) + 1;
 
@@ -166,16 +171,19 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars: crs, activeCar }) => {
 
 export const getStaticProps: GetStaticProps<DetailsPageProps, DetailsPagePath> =
   async ({ params }) => {
-    const [brand, model, color] = params!.slug;
+    if (!params || !params.slug) return { notFound: true };
+    const [brand, model, color] = params.slug;
 
     const filePath = path.join(process.cwd(), 'data', 'cars.json');
     const jsonData = await fs.readFile(filePath);
-    const data = await JSON.parse(jsonData.toString());
+    const data: { cars: IJsonCar[] } = await JSON.parse(jsonData.toString());
 
     if (data.cars.length === 0) return { notFound: true };
 
-    const cars = data.cars
-      .filter((aCar: IJsonCar) => aCar.slug.includes(`${brand}-${model}`))
+    const slug = `${brand}-${model}`;
+
+    const cars: ICarWithID[] = data.cars
+      .filter((aCar: IJsonCar) => aCar.slug.includes(slug))
       .map((car: IJsonCar, i: number) => ({
         id: i + 1,
         slug: car.slug,
@@ -184,13 +192,13 @@ export const getStaticProps: GetStaticProps<DetailsPageProps, DetailsPagePath> =
         pricePerDay: car.price_per_day,
         color: car.color,
       }));
+    const activeCar = cars.find(
+      (car: ICar) => car.color.toLowerCase() === color
+    );
 
-    return {
-      props: {
-        cars,
-        activeCar: cars.find((car: ICar) => car.color.toLowerCase() === color),
-      },
-    };
+    if (!activeCar) return { notFound: true };
+
+    return { props: { cars, activeCar } };
   };
 
 export const getStaticPaths: GetStaticPaths<DetailsPagePath> = async () => {
