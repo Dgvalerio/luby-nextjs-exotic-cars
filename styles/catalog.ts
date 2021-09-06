@@ -1,8 +1,7 @@
 import { transparentize } from 'polished';
 import styled from 'styled-components';
 
-// eslint-disable-next-line import/prefer-default-export
-export const Wrapper = styled.main`
+const Wrapper = styled.main`
   &,
   .content {
     display: flex;
@@ -21,7 +20,7 @@ export const Wrapper = styled.main`
     .cars-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, 287px);
-      justify-content: space-between;
+      justify-content: center;
       gap: 24px;
     }
   }
@@ -56,4 +55,22 @@ export const Wrapper = styled.main`
       }
     }
   }
+
+  @media (max-width: 1024px) {
+    padding-top: 5.8rem;
+
+    button.back-to-top {
+      bottom: 8px;
+      right: 8px;
+
+      height: 64px;
+      width: 64px;
+
+      svg {
+        width: 32px;
+      }
+    }
+  }
 `;
+
+export default Wrapper;

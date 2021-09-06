@@ -7,7 +7,7 @@ import path from 'path';
 
 import CarCard from '../components/car-card';
 import Icon from '../components/icon';
-import { Wrapper } from '../styles/catalog';
+import Wrapper from '../styles/catalog';
 import { ICar, IJsonCar } from '../types/interface';
 
 type CatalogPageProps = { cars: ICar[] };
