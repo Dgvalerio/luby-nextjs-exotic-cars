@@ -100,7 +100,11 @@ const Icon: FC<{
       xmlns="http://www.w3.org/2000/svg"
       width={size || width}
       height={size || height}
-      viewBox={`0 0 ${size || width} ${size || height}`}
+      viewBox={
+        name === 'chevron top'
+          ? '0 0 37.29 18.64'
+          : `0 0 ${size || width} ${size || height}`
+      }
     >
       {icon}
     </svg>

@@ -1,12 +1,12 @@
 import { lighten } from 'polished';
 import styled from 'styled-components';
 
-// eslint-disable-next-line import/prefer-default-export
-export const Wrapper = styled.header`
+const Wrapper = styled.header<{ active: boolean }>`
   &,
   .content,
   form,
   label,
+  .header,
   .actions {
     display: flex;
   }
@@ -31,17 +31,23 @@ export const Wrapper = styled.header`
     align-items: center;
     justify-content: space-between;
 
-    a {
-      text-transform: uppercase;
-      font: normal normal 600 24px/32px Segoe UI;
-      letter-spacing: 0.96px;
-      text-decoration: none;
-      color: ${({ theme }) => theme.colors.text};
+    .header {
+      a {
+        text-transform: uppercase;
+        font: normal normal 600 24px/32px Segoe UI;
+        letter-spacing: 0.96px;
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.text};
 
-      small {
-        padding: 0 5px;
-        font: normal normal normal 16px/21px Segoe UI;
-        letter-spacing: 0.64px;
+        small {
+          padding: 0 5px;
+          font: normal normal normal 16px/21px Segoe UI;
+          letter-spacing: 0.64px;
+        }
+      }
+
+      button {
+        display: none;
       }
     }
 
@@ -141,4 +147,68 @@ export const Wrapper = styled.header`
       }
     }
   }
+
+  @media (max-width: 1024px) {
+    .content,
+    .content > form,
+    .actions {
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    padding: 0;
+
+    .content {
+      padding: 16px;
+
+      .header {
+        justify-content: space-between;
+
+        button {
+          display: flex;
+          align-items: center;
+          background-color: transparent;
+          border: none;
+
+          svg {
+            transition: 0.4s all;
+            transform: rotate(${({ active }) => (active ? '0' : '180deg')});
+          }
+        }
+      }
+
+      ${({ active }) => !active && 'form, .actions { display: none; }'}
+
+      form {
+        padding: 8px;
+        border-radius: 18px;
+
+        label,
+        label:first-child {
+          flex: 1;
+          width: 100%;
+          gap: 4px;
+          padding: 0 3px;
+
+          input {
+            width: 100%;
+          }
+        }
+
+        label:first-child > svg {
+          margin: 0 2px;
+        }
+
+        button {
+          flex: 1;
+          width: 100%;
+          border-radius: 16px;
+          padding: 6px 0 8px 0;
+        }
+      }
+    }
+  }
 `;
+
+export default Wrapper;

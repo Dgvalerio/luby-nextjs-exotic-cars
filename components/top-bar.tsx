@@ -1,12 +1,15 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { NextPage } from 'next';
 import Link from 'next/link';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
-import { Wrapper } from '../styles/components/top-bar';
+import Wrapper from '../styles/components/top-bar';
 import Icon from './icon';
 
 const TopBar: NextPage = () => {
+  const [active, setActive] = useState(false);
+
   const locationInputRef = useRef<HTMLInputElement>(null);
   const initialDateInputRef = useRef<HTMLInputElement>(null);
   const finalDateInputRef = useRef<HTMLInputElement>(null);
@@ -26,14 +29,18 @@ const TopBar: NextPage = () => {
   };
 
   return (
-    <Wrapper>
+    <Wrapper active={active}>
       <div className="content">
-        <Link href="/" passHref>
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a>
-            Exotic<small>cars</small>
-          </a>
-        </Link>
+        <div className="header">
+          <Link href="/" passHref>
+            <a>
+              Exotic<small>cars</small>
+            </a>
+          </Link>
+          <button type="button" onClick={() => setActive((prev) => !prev)}>
+            <Icon name="chevron top" width={36} height={10} />
+          </button>
+        </div>
         <form onSubmit={submitHandler}>
           <label htmlFor="location">
             <Icon name="map pin" width={13} height={17} />
