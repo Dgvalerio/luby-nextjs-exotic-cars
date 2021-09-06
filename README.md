@@ -12,7 +12,7 @@ telas, atente a **responsividade**.
 - [X]  **RF01.** Utilizar **StyledComponent**
 - [X]  **RF02.** A listagem de carros deve ser feita **consumindo** de um **JSON** que possua os objetos dos carros (que
   sejam coerentes com a necessidade da tela).
-- [ ]  **RF03.** Aplicar **responsividade**
+- [X]  **RF03.** Aplicar **responsividade**
    - [X] TopBar
    - [X] Home/Catalog
    - [X] Car Details
@@ -23,3 +23,6 @@ telas, atente a **responsividade**.
 **Observações**: não é necessário implementar o login ou outras telas que nao estão no protótipo. O que você achar necessário para que a qualidade do seu código e interface fique o melhor possível, poderá ser utilizado.
 
 Após finalizar, notifique seu líder.
+
+## **Online em:**
+- [Exotic Cars](https://luby-nextjs-exotic-cars.vercel.app/)
