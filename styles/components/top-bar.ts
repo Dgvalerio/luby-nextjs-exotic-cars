@@ -174,6 +174,10 @@ const Wrapper = styled.header<{ active: boolean }>`
           svg {
             transition: 0.4s all;
             transform: rotate(${({ active }) => (active ? '0' : '180deg')});
+
+            path {
+              fill: ${({ theme }) => theme.colors.text};
+            }
           }
         }
       }
