@@ -24,17 +24,30 @@ export const Wrapper = styled.main`
 
     .top {
       justify-content: space-between;
+      align-items: center;
 
       div:first-child {
         display: flex;
+        align-items: center;
         gap: 39px;
 
-        h1 {
-          font: normal normal bold 50px/67px Segoe UI;
+        > div:first-child {
+          width: 91px;
+          height: 123px;
         }
 
-        h2 {
-          font: normal normal 300 40px/53px Segoe UI;
+        > div:last-child {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          h1 {
+            font: normal normal bold 50px/67px Segoe UI;
+          }
+
+          h2 {
+            font: normal normal 300 40px/53px Segoe UI;
+          }
         }
       }
 
@@ -156,9 +169,67 @@ export const Wrapper = styled.main`
       }
     }
   }
+
+  @media (max-width: 1024px) {
+    padding-top: 4.8rem;
+
+    .content {
+      padding: 16px;
+
+      .top {
+        > div:first-child {
+          gap: 16px;
+
+          div:first-child {
+            width: 54.6px;
+            height: 73.8px;
+          }
+
+          div:last-child {
+            h1 {
+              font-size: 25px;
+              line-height: 33px;
+            }
+
+            h2 {
+              font-size: 20px;
+              line-height: 26px;
+            }
+          }
+        }
+
+        > div:last-child {
+          display: none;
+
+          h3 {
+            font-size: 25px;
+            line-height: 33px;
+          }
+
+          h4 {
+            font-size: 15px;
+            line-height: 20px;
+          }
+        }
+      }
+
+      .middle {
+        margin: 0 auto;
+
+        .goBackButton {
+          display: none;
+        }
+      }
+
+      .bottom {
+        justify-content: center;
+        gap: 24px;
+      }
+    }
+  }
 `;
 
-export const CarOption = styled.div<{ active: boolean }>`
+export const CarOption = styled.div<{ active: boolean; color: string }>`
   &,
   > div {
     display: flex;
@@ -205,6 +276,22 @@ export const CarOption = styled.div<{ active: boolean }>`
       }
       100% {
         background-position: 0 50%;
+      }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    transform: translateY(0);
+    padding: 0;
+
+    > div {
+      width: ${({ active }) => (active ? '64px' : '36px')};
+      height: ${({ active }) => (active ? '64px' : '36px')};
+      background: ${({ color }) => color};
+      border-radius: 50%;
+
+      > div {
+        display: none !important;
       }
     }
   }

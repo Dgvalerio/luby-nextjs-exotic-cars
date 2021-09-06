@@ -102,6 +102,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars: crs, activeCar }) => {
                 alt={car.brand}
                 height={123}
                 width={91}
+                layout="responsive"
               />
             </div>
             <div>
@@ -117,7 +118,11 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars: crs, activeCar }) => {
           </div>
         </div>
         <div className="middle">
-          <button type="button" onClick={goBackHandler}>
+          <button
+            type="button"
+            onClick={goBackHandler}
+            className="goBackButton"
+          >
             <Icon name="arrow left" height={16} width={24} /> Back to catalog
           </button>
           <div>
@@ -144,6 +149,7 @@ const DetailsPage: NextPage<DetailsPageProps> = ({ cars: crs, activeCar }) => {
             <CarOption
               key={c.slug}
               active={c.color === car.color}
+              color={c.color}
               onClick={() => colorHandler(c.color)}
             >
               <div>

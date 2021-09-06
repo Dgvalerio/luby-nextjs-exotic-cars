@@ -14,8 +14,8 @@ telas, atente a **responsividade**.
   sejam coerentes com a necessidade da tela).
 - [ ]  **RF03.** Aplicar **responsividade**
    - [X] TopBar
-   - [ ] Home/Catalog
-   - [ ] Car Details
+   - [X] Home/Catalog
+   - [X] Car Details
 - [X]  **RF04.** Utilizar **Typescript**
 - [X]  **RF05. Ao clicar em um carro**, redirecione para a tela de detalhes passando as propriedades deles.
 - [X]  **RF06**: A página de detalhes deve ter a navegação entre as cores do carro, a animação é opcional.
